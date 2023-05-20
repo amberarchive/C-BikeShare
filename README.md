@@ -140,7 +140,7 @@ Back to the business task, to find the pattern of the duration of the trip betwe
 3. Extract `day_no` - the day of the week that each ride started by extracting the day of the week in `adjusted_started_at` using EXTRACT function. The DAYOFWEEK trong BigQuery return the day in number, 1 equal to Sunday, 2 equal to Monday and so on, so I also need another step (in Take 3) to assign the name for each day. 
 
 Take 3: 
-- Assign name for time of day: I separated a day into 3 times: Morning is between 04:01 to 11:00; Afternoon is between 11:01 to 18:00, Night is between 18:01 to 04:00 
+- Assign name for time of day: I separated a day into 3 times: Morning is between 05:01 to 12:00; Afternoon is between 12:01 to 18:00, Night is between 18:01 to 05:00 
 - Assign a name for the day of the week: As above, I just assign the name of the day of the week to accordingly number.
 
 ```sql
@@ -163,8 +163,8 @@ SELECT
 
   # assign name for time of day
   CASE
-    WHEN start_hour > 4 AND start_hour <= 11 THEN "Morning"
-    WHEN start_hour > 11 AND start_hour <=18 THEN "Afternoon"
+    WHEN start_hour > 5 AND start_hour <= 12 THEN "Morning"
+    WHEN start_hour > 12 AND start_hour <=18 THEN "Afternoon"
     ELSE "Night"
   end as time_of_day
 
