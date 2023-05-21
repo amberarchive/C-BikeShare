@@ -31,7 +31,7 @@ The main features of interest would be the `started_at`, `ended_at` and `member_
 
 ## Explorations & Findings: 
 ### Size & data type:
-Looking at the Storage info, I easily see there are 5,663,942 rows, with 13 variables accordingly as below: 
+There are 5,663,942 rows, with 13 variables accordingly as below: 
 
 | Field name    | Type |
 | ------------- | ------------- |
@@ -48,8 +48,6 @@ Looking at the Storage info, I easily see there are 5,663,942 rows, with 13 vari
 | `end_lat` | FLOAT
 | `end_lng` | FLOAT
 | `member_casual` | STRING
-
-All type of variables is right, so we don't need any step of transfer data type.
 
 ### Data Values:
 
@@ -210,12 +208,13 @@ ORDER BY
 ```
 The cleaned data found at [here](https://console.cloud.google.com/bigquery?pli=1&project=bos-very-first-project&ws=!1m5!1m4!1m3!1sbos-very-first-project!2sbquxjob_1d9e6189_187028858b1!3sUS).
 
-## Analizing
+## Analyzing
 
 ### Descriptive Statistics
 | Variable | N | Mean | Max | Min | SD |
 | ----- | ----- | ---- | ----- |----- |----- |
 | `duration_sec` | 5.429.084 | 965,0313 | 86395 | 0 | 18903,6068 |
+
 ```sql
 SELECT 
   MAX(duration_sec) as maximum,
@@ -224,3 +223,27 @@ SELECT
   STDDEV(DISTINCT duration_sec) as sd
 FROM `bos-very-first-project.cyclistic_bike_share.cleaned`
 ```
+## Insights
+
+#### Rides proportion: Member vs. Casual
+
+![mc_pie1 (2)](https://github.com/amberarchive/C-BikeShare/assets/132808754/2fe43d63-7c25-4293-ac10-29d786175003)
+
+3/5 of rides (about 59,57%) are taken by the member subscribers with the remaining 40,43% being casual riders. It doesn't mean that the market of casual riders to convert to member is not potential. 
+A larger percentage of trips by member subscribers may be described as they are pay for their monthly fees, so they make efficient use of their subscriptions as much as possible. They may use our service as a main transportation - daily transportation. In contrast, casual riders sometimes use our service as a one-time solution: they miss their train, their car is broken or maintenance, or maybe the weather is good that day and they want a bike ride instead,... They priority some other transportation in their daily.
+
+#### Day of the week
+![day of week](https://github.com/amberarchive/C-BikeShare/assets/132808754/35f399dc-8fe0-45d2-b4b9-95b80ee5223e)
+
+Saturday is the busiest day. As shown, the pattern of each user type is quite different. But let's separate it into 2 single graphs
+
+![day of week by user type](https://github.com/amberarchive/C-BikeShare/assets/132808754/94c76f27-d129-4791-9341-c88cf15ae5a9)
+
+Member subscribers tend to be more active on weekdays, the number of usage increases gradually from the beginning of the week and peaks on Tuesdays, Wednesdays and Thursdays, then continues to decrease on the last days. week.
+
+Absolutely opposite, casual riders have a habit of using our service a lot on weekends and gradually decrease and the lowest is on weekdays: Monday, Tuesday, Wednesday and Thursday
+
+#### Time of the day
+![111111111111](https://github.com/amberarchive/C-BikeShare/assets/132808754/5dee05bd-36e0-4ea1-98f2-eec570def722)
+
+As the graph
