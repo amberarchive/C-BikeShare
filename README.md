@@ -9,7 +9,7 @@ Cyclistic is a bike-share company in Chicago.
 
 This document explores a dataset with information about individual rides covering Chicago within 1 year from March 2022 to Feb 2023.
 
-Link to data on [BigQuery](https://console.cloud.google.com/bigquery?pli=1&project=bos-very-first-project&ws=!1m0).
+Link to data on [BigQuery](console.cloud.google.com/bigquery?ws=!1m4!1m3!3m2!1samberlearchive!2sCBikeShare).
 
 ### Disclaimer
 
@@ -27,11 +27,16 @@ Focusing on the objective, I am most interested in figuring out:
 1. The pattern of the duration of the trip between the member and casual rider
 2. The pattern of renting hour/date (day of the week, time of the day) between the member and casual rider 
 
-The main features of interest would be the `started_at`, `ended_at` and `member_casual`
+The other explorations can be related to: 
+3. `rideable_type`, which type of bike that casual riders prefer
+4. And which station that popular with usual riders
+
+The main features of interest would be: `rideable_type`, `started_at`, `ended_at`, `member_casual`, `start_station_name`, `start_station_id`, `end_station_name`, `end_station_id`, `start_lat`, `start_lng`,`end_lat`, `end_lng`
+ *** We only drop the `ride_id` column 
 
 ## Explorations & Findings: 
 ### Size & data type:
-There are 5,663,942 rows, with 13 variables accordingly as below: 
+There are 5,829,084 rows, with 13 variables accordingly as below: 
 
 | Field name    | Type |
 | ------------- | ------------- |
@@ -59,13 +64,13 @@ To find the value range of each field, I continue to use DISTINCT. It also finds
 SELECT  
    DISTINCT(member_casual)
 FROM 
-   `bos-very-first-project.cyclistic_bike_share.tripdata_raw_12months`
+   `amberlearchive.CBikeShare.tripsdata`
 ```
 ```sql
 SELECT  
    DISTINCT(rideable_type)
 FROM 
-   `bos-very-first-project.cyclistic_bike_share.tripdata_raw_12months`
+   `amberlearchive.CBikeShare.tripsdata`
 ```
 
 Findings: 
@@ -86,13 +91,14 @@ Findings:
 | `member_casual` | member or casual
 
 ### Data errors: 
+
 #### Missing value: 
 
 ```sql
 # count null value using IS NULL for each variable
 SELECT 
   COUNT(*)
-FROM `bos-very-first-project.cyclistic_bike_share.tripdata_raw_12months`
+FROM  `amberlearchive.CBikeShare.tripsdata`
 WHERE
   ride_id IS NULL
 ```
@@ -104,14 +110,14 @@ Finding: Lucky that the defined variables that relevant to my analysis are all i
 | `rideable_type` | 0  |0%
 | `started_at`    | 0  |0%
 | `ended_at `     | 0 |0%
-| `start_station_name` | 251567 | 4,44%
-| `start_station_id`   | 251567 | 4,44%
-| `end_station_name ` | 266440 |4,70%
-| `end_station_id` | 266440 |4,71%
+| `start_station_name` | 344511 | 5.9102081905%
+| `start_station_id`   | 344643 | 5.9124726972%
+| `end_station_name ` | 366592 |6.2890155640%
+| `end_station_id` | 366733 |6.2914344689%
 | `start_lat`| 0 |0%
 | `start_lng ` | 0 |0%
-| `end_lat` | 5666 |0,10%
-| `end_lng `| 5666 |0,10%
+| `end_lat` | 5938 |0.1018684925%
+| `end_lng `| 5938 |0.1018684925%
 | `member_casual` | 0 | 0%
 
 #### Duplicate: 
@@ -120,22 +126,25 @@ Finding: Lucky that the defined variables that relevant to my analysis are all i
 # using DISTINCT to remove duplicate ride then using COUNT
 SELECT
   COUNT(DISTINCT (ride_id))
-FROM `bos-very-first-project.cyclistic_bike_share.tripdata_raw_12months`
+FROM   `amberlearchive.CBikeShare.tripsdata`
 ```
 
-Each ride has a unique ride_id, by using DISTINCT, I find out there are 5.429.084 rides in a total of 5.663.942 rides on the original dataset. The duplication may be caused by typo, copy or merge data,...
+Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,084 rides in a total of 5,829,084 rides on the original dataset. The duplication may be caused by typo, copy or merge data,...
+
+#### Data Validation
+
 
 ## Cleaning
 Take 1: 
 1. I only chose variables that are irrelevant to my analysis and drop the rest.
 2. Remove duplicate: As my finding above,  each ride has a unique `ride_id`, using DISTINCT to remove duplicate
-3. Converting data time zone: Cyclistic is Chicago based, but the columns `started_at` and `ended_at` are recorded by UTC +0 time zone. So I need to convert to the Chicago time zone, which is UTC -5. The 2 new column `adjusted_started_at` and `adjusted_ended_at` is the new time. 
+3. Converting data time zone: Cyclistic is Chicago based, but the columns `started_at` and `ended_at` are recorded by UTC +0 time zone. So I need to convert to the Chicago time zone, which is UTC -5. The 2 new columns `adjusted_started_at` and `adjusted_ended_at` are the new time. 
 
 Take 2:
 Back to the business task, to find the pattern of the duration of the trip between the member and casual rider and also The pattern of renting hour/date (day of the week, time of the day) between the member and casual rider, first of all, I am going to: 
 1. Calculate `duration_sec` - each ride's duration: using end time minus start time. Remind that I am using adjusted_started_at and adjusted_ended_at. This variable will be shown on the type number of seconds for each ride, for example a ride which lasts for 5 minutes and 32 seconds will be shown as (5*60+32) = 332 seconds
 2. Extract `start_hour` - the hour that each ride started by extracting the hour in `adjusted_started_at` using the EXTRACT function.
-3. Extract `day_no` - the day of the week that each ride started by extracting the day of the week in `adjusted_started_at` using EXTRACT function. The DAYOFWEEK trong BigQuery return the day in number, 1 equal to Sunday, 2 equal to Monday and so on, so I also need another step (in Take 3) to assign the name for each day. 
+3. Extract `day_no` - the day of the week that each ride started by extracting the day of the week in `adjusted_started_at` using EXTRACT function. The DAYOFWEEK in BigQuery return the day in number, 1 equal to Sunday, 2 equal to Monday and so on, so I also need another step (in Take 3) to assign the name for each day. 
 
 Take 3: 
 - Assign name for time of day: I separated a day into 3 times: Morning is between 05:01 to 12:00; Afternoon is between 12:01 to 18:00, Night is between 18:01 to 05:00 
@@ -164,13 +173,28 @@ SELECT
     WHEN start_hour > 5 AND start_hour <= 12 THEN "Morning"
     WHEN start_hour > 12 AND start_hour <=18 THEN "Afternoon"
     ELSE "Night"
-  end as time_of_day
-
+  end as time_of_day,
+  start_station_name,
+  start_station_id,
+  end_station_name,
+  end_station_id,
+  start_lat,
+  start_lng,
+  end_lat,
+  end_lng  
 FROM
   ( ### TAKE 2
   SELECT  
     adjusted_started_at,
     adjusted_ended_at,
+    start_station_name,
+    start_station_id,
+    end_station_name,
+    end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
     member_casual,
 
     #calculate duration time in second
@@ -188,7 +212,7 @@ FROM
   ( ### TAKE 1
     ## Clean data using DISTINCT, DATETIME 
 SELECT
-  # only chose variables that are rrelevant to my analysis
+  # chose variables that are rrelevant to my analysis
   DISTINCT (ride_id) # Each ride has a unique ride_id, using DISTINCT to remove duplicate ride
   started_at,
   ended_at,
@@ -196,9 +220,17 @@ SELECT
   # adjust time zone from UTC +0 to Chicago -5
   DATETIME(started_at, "America/Chicago") as adjusted_started_at,
   DATETIME(ended_at, "America/Chicago") as adjusted_ended_at,
-
+  
+  start_station_name,
+  start_station_id,
+  end_station_name,
+  end_station_id,
+  start_lat,
+  start_lng,
+  end_lat,
+  end_lng,
   member_casual
-FROM `bos-very-first-project.cyclistic_bike_share.tripdata_raw_12months`
+FROM `amberlearchive.CBikeShare.tripsdata`
 ORDER BY
   started_at
   )
