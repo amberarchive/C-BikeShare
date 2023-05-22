@@ -30,7 +30,7 @@ Focusing on the objective, I am most interested in figuring out:
 The other explorations can be related to:
 
 3. `rideable_type`, which type of bike that casual riders prefer
-4. And which station that popular with usual riders
+4. And which station that popular with casual riders
 
 The main features of interest would be: `rideable_type`, `started_at`, `ended_at`, `member_casual`, `start_station_name`, `start_station_id`, `end_station_name`, `end_station_id`, `start_lat`, `start_lng`,`end_lat`, `end_lng`
  *** We only drop the `ride_id` column 
@@ -266,6 +266,10 @@ FROM `bos-very-first-project.cyclistic_bike_share.cleaned`
 
 A larger percentage of trips by member subscribers may be described as they are pay for their monthly fees, so they make efficient use of their subscriptions as much as possible. They may use our service as a main transportation - daily transportation. In contrast, casual riders sometimes use our service as a one-time solution: they miss their train, their car is broken or maintenance, or maybe the weather is good that day and they want a bike ride instead,... They priority some other transportation in their daily.
 
+#### Duration Trip
+
+
+
 #### Day of the week
 ![day of week](https://github.com/amberarchive/C-BikeShare/assets/132808754/35f399dc-8fe0-45d2-b4b9-95b80ee5223e)
 
@@ -287,16 +291,16 @@ The y-axis shows the percentage of rides of member and casual riders.
 The percentage inside the body of the graph (pink and blue) is the percentage of rides of each rider type at each time of the day.
 
 - The blue squares (from right to left): 
-   - 17.75% is the percentage of casual riders in the morning;
-   - 19.18%  is the percentage of casual riders in the afternoon; 
-   - 3.30%  is the percentage of casual riders in the afternoon; 
+   - 17.75% rides were made by casual riders in the morning;
+   - 19.18% rides were made by casual riders in the afternoon;
+   - 3.30% is were made by casual riders in the afternoon;
 
 Casual riders' ride in the morning is just a little bit lower (about 2%) than in the afternoon - the peak time, and then it dramatically drop-down at night  
 
 - The pink squares (from right to left): 
-   - 26.59% is the percentage of casual riders in the morning;
-   - 26.16%  is the percentage of casual riders in the afternoon; 
-   - 6.83%  is the percentage of casual riders in the afternoon;  
+   - 26.59% rides were made by casual riders in the morning;
+   - 26.16%  rides were made by casual riders in the afternoon; 
+   - 6.83%  rides were made by casual riders in the afternoon;  
 
 Member user's peak time is morning, it just falls down insignificant in the afternoon and then dramatically drop-down at night.
 
