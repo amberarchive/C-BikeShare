@@ -27,7 +27,8 @@ Focusing on the objective, I am most interested in figuring out:
 1. The pattern of the duration of the trip between the member and casual rider
 2. The pattern of renting hour/date (day of the week, time of the day) between the member and casual rider 
 
-The other explorations can be related to: 
+The other explorations can be related to:
+
 3. `rideable_type`, which type of bike that casual riders prefer
 4. And which station that popular with usual riders
 
@@ -262,6 +263,7 @@ FROM `bos-very-first-project.cyclistic_bike_share.cleaned`
 ![mc_pie1 (2)](https://github.com/amberarchive/C-BikeShare/assets/132808754/2fe43d63-7c25-4293-ac10-29d786175003)
 
 3/5 of rides (about 59,57%) are taken by the member subscribers with the remaining 40,43% being casual riders. It doesn't mean that the market of casual riders to convert to member is not potential. 
+
 A larger percentage of trips by member subscribers may be described as they are pay for their monthly fees, so they make efficient use of their subscriptions as much as possible. They may use our service as a main transportation - daily transportation. In contrast, casual riders sometimes use our service as a one-time solution: they miss their train, their car is broken or maintenance, or maybe the weather is good that day and they want a bike ride instead,... They priority some other transportation in their daily.
 
 #### Day of the week
@@ -276,6 +278,26 @@ Member subscribers tend to be more active on weekdays, the number of usage incre
 Absolutely opposite, casual riders have a habit of using our service a lot on weekends and gradually decrease and the lowest is on weekdays: Monday, Tuesday, Wednesday and Thursday
 
 #### Time of the day
-![111111111111](https://github.com/amberarchive/C-BikeShare/assets/132808754/5dee05bd-36e0-4ea1-98f2-eec570def722)
+![222222](https://github.com/amberarchive/C-BikeShare/assets/132808754/360c8a96-6ba9-4ddc-a55b-964c8a81a419)
+The x-axis has a max limit of 100% showing the percentage of rides for each time of day: about 44% rides in the morning, 45% rides in the afternoon, and about 11% rides at night.
+It is easily explained that Morning and Afternoon are the time that people go to work and go home. After working hours, the demand of using the bike is not high.
 
-As the graph
+The y-axis shows the percentage of rides of member and casual riders.
+
+The percentage inside the body of the graph (pink and blue) is the percentage of rides of each rider type at each time of the day.
+
+- The blue squares (from right to left): 
+   - 17.75% is the percentage of casual riders in the morning;
+   - 19.18%  is the percentage of casual riders in the afternoon; 
+   - 3.30%  is the percentage of casual riders in the afternoon; 
+
+Casual riders' ride in the morning is just a little bit lower (about 2%) than in the afternoon - the peak time, and then it dramatically drop-down at night  
+
+- The pink squares (from right to left): 
+   - 26.59% is the percentage of casual riders in the morning;
+   - 26.16%  is the percentage of casual riders in the afternoon; 
+   - 6.83%  is the percentage of casual riders in the afternoon;  
+
+Member user's peak time is morning, it just falls down insignificant in the afternoon and then dramatically drop-down at night.
+
+It is not too different between member vs. casual riders on the time of day using the services. 
