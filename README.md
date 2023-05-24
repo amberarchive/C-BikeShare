@@ -30,7 +30,6 @@ Focusing on the objective, I am most interested in figuring out:
 The other explorations can be related to:
 
 3. `rideable_type`, which type of bike that casual riders prefer
-4. And which station that popular with casual riders
 
 The main features of interest would be: `rideable_type`, `started_at`, `ended_at`, `member_casual`, `start_station_name`, `start_station_id`, `end_station_name`, `end_station_id`, `start_lat`, `start_lng`,`end_lat`, `end_lng`
  *** We only drop the `ride_id` column 
