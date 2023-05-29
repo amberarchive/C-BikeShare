@@ -238,14 +238,14 @@ ORDER BY
     adjusted_started_at
   )
 ```
-The cleaned data found at [here](https://console.cloud.google.com/bigquery?pli=1&project=bos-very-first-project&ws=!1m5!1m4!1m3!1sbos-very-first-project!2sbquxjob_1d9e6189_187028858b1!3sUS).
+The cleaned data found at [here](console.cloud.google.com/bigquery?ws=!1m5!1m4!4m3!1samberlearchive!2sCBikeShare!3stripsdata_cleaned).
 
 ## Analyzing
 
 ### Descriptive Statistics
 | Variable | N | Mean | Max | Min | SD |
 | ----- | ----- | ---- | ----- |----- |----- |
-| `duration_sec` | 5.429.084 | 965,0313 | 86395 | 0 | 18903,6068 |
+| `duration_sec` | 5.829.084 | 977.3973651777 | 86395 | 0 | 19197.36909423 |
 
 ```sql
 SELECT 
@@ -253,7 +253,7 @@ SELECT
   MIN(duration_sec) as minimum,
   AVG(duration_sec) as mean,
   STDDEV(DISTINCT duration_sec) as sd
-FROM `bos-very-first-project.cyclistic_bike_share.cleaned`
+FROM `amberlearchive.CBikeShare.tripsdata_cleaned`
 ```
 ## Insights
 
@@ -267,6 +267,15 @@ A larger percentage of trips by member subscribers may be described as they are 
 
 #### Duration Trip
 
+![Sheet 1](https://github.com/amberarchive/C-BikeShare/assets/132808754/09af04b2-deb7-4130-932d-b6d4d74586fb)
+
+The bin size is 60 which is equal to 1 minute.
+
+The variability of duration time is high, with the shortest trip being 0 second and the highest being 86395 seconds (equal to ~1440 hours or ~60 days). This makes the distribution highly right-skewed with a really long tail.
+
+There are trips that are too short or too long, it can explain that this is the user's error, they may depart or park the bike while the dock has not recorded the time used. 
+
+The Descriptive Statistics above already show
 
 
 #### Day of the week
