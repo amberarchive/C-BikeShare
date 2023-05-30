@@ -31,8 +31,7 @@ The other explorations can be related to:
 
 3. `rideable_type`, which type of bike that casual riders prefer
 
-The main features of interest would be: `rideable_type`, `started_at`, `ended_at`, `member_casual`, `start_station_name`, `start_station_id`, `end_station_name`, `end_station_id`, `start_lat`, `start_lng`,`end_lat`, `end_lng`
- *** We only drop the `ride_id` column 
+The main features of interest would be: `rideable_type`, `started_at`, `ended_at`, `member_casual`
 
 ## Explorations & Findings: 
 ### Size & data type:
@@ -129,7 +128,7 @@ SELECT
 FROM   `amberlearchive.CBikeShare.tripsdata`
 ```
 
-Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,084 rides in a total of 5,829,084 rides on the original dataset. The duplication may be caused by typo, copy or merge data,...
+Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,084 rides in a total of 5,829,084 rides on the original dataset.
 
 #### Data Validation
 
@@ -137,14 +136,14 @@ Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,08
 ## Cleaning
 Take 1: 
 1. I only chose variables that are irrelevant to my analysis and drop the rest.
-2. Remove duplicate: As my finding above,  each ride has a unique `ride_id`, using DISTINCT to remove duplicate
-3. Converting data time zone: Cyclistic is Chicago based, but the columns `started_at` and `ended_at` are recorded by UTC +0 time zone. So I need to convert to the Chicago time zone, which is UTC -5. The 2 new columns `adjusted_started_at` and `adjusted_ended_at` are the new time. 
+2. Remove duplicate: using DISTINCT to remove duplicate in column `ride_id`
+3. Converting data time zone: Cyclistic is Chicago based, but the columns `started_at` and `ended_at` are recorded by UTC +0 time zone. So I convert to the Chicago time zone, which is UTC -5. The 2 new columns `adjusted_started_at` and `adjusted_ended_at` are the new time. 
 
 Take 2:
 Back to the business task, to find the pattern of the duration of the trip between the member and casual rider and also The pattern of renting hour/date (day of the week, time of the day) between the member and casual rider, first of all, I am going to: 
 1. Calculate `duration_sec` - each ride's duration: using end time minus start time. Remind that I am using adjusted_started_at and adjusted_ended_at. This variable will be shown on the type number of seconds for each ride, for example a ride which lasts for 5 minutes and 32 seconds will be shown as (5*60+32) = 332 seconds
 2. Extract `start_hour` - the hour that each ride started by extracting the hour in `adjusted_started_at` using the EXTRACT function.
-3. Extract `day_no` - the day of the week that each ride started by extracting the day of the week in `adjusted_started_at` using EXTRACT function. The DAYOFWEEK in BigQuery return the day in number, 1 equal to Sunday, 2 equal to Monday and so on, so I also need another step (in Take 3) to assign the name for each day. 
+3. Extract `day_no` - the day of the week that each ride started by extracting the day of the week in `adjusted_started_at` using EXTRACT function. The DAYOFWEEK in BigQuery returns the day in number, 1 equal to Sunday, 2 equal to Monday and so on, so I also need another step (in Take 3) to assign the name for each day. 
 
 Take 3: 
 - Assign name for time of day: I separated a day into 3 times: Morning is between 05:01 to 12:00; Afternoon is between 12:01 to 18:00, Night is between 18:01 to 05:00 
@@ -174,27 +173,12 @@ SELECT
     WHEN start_hour > 12 AND start_hour <=18 THEN "Afternoon"
     ELSE "Night"
   end as time_of_day,
-  start_station_name,
-  start_station_id,
-  end_station_name,
-  end_station_id,
-  start_lat,
-  start_lng,
-  end_lat,
-  end_lng  
+ 
 FROM
   ( ### TAKE 2
   SELECT  
     adjusted_started_at,
     adjusted_ended_at,
-    start_station_name,
-    start_station_id,
-    end_station_name,
-    end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
     member_casual,
 
     #calculate duration time in second
@@ -220,15 +204,7 @@ SELECT
   # adjust time zone from UTC +0 to Chicago -5
   DATETIME(started_at, "America/Chicago") as adjusted_started_at,
   DATETIME(ended_at, "America/Chicago") as adjusted_ended_at,
-  
-  start_station_name,
-  start_station_id,
-  end_station_name,
-  end_station_id,
-  start_lat,
-  start_lng,
-  end_lat,
-  end_lng,
+ 
   member_casual
 FROM `amberlearchive.CBikeShare.tripsdata`
 ORDER BY
