@@ -128,10 +128,9 @@ SELECT
 FROM   `amberlearchive.CBikeShare.tripsdata`
 ```
 
-Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,084 rides in a total of 5,829,084 rides on the original dataset.
+Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,084 rides in a total of 5,829,084 rides on the original dataset, no duplicate.
 
 #### Data Validation
-
 
 ## Cleaning
 Take 1: 
@@ -146,7 +145,7 @@ Back to the business task, to find the pattern of the duration of the trip betwe
 3. Extract `day_no` - the day of the week that each ride started by extracting the day of the week in `adjusted_started_at` using EXTRACT function. The DAYOFWEEK in BigQuery returns the day in number, 1 equal to Sunday, 2 equal to Monday and so on, so I also need another step (in Take 3) to assign the name for each day. 
 
 Take 3: 
-- Assign name for time of day: I separated a day into 3 times: Morning is between 05:01 to 12:00; Afternoon is between 12:01 to 18:00, Night is between 18:01 to 05:00 
+- Assign name for time of day: Separated a day into 3 times: Morning is between 05:01 to 12:00; Afternoon is between 12:01 to 18:00, Night is between 18:01 to 05:00 
 - Assign a name for the day of the week: As above, I just assign the name of the day of the week to accordingly number.
 
 ```sql
@@ -156,7 +155,6 @@ SELECT
   duration_sec,
   start_hour,
 
-  # assign name for day of week
   CASE
     WHEN day_no = 1 THEN "Sunday"
     WHEN day_no = 2 then "Monday"
@@ -167,7 +165,6 @@ SELECT
     ELSE "Saturday"
   END AS day_of_week,
 
-  # assign name for time of day
   CASE
     WHEN start_hour > 5 AND start_hour <= 12 THEN "Morning"
     WHEN start_hour > 12 AND start_hour <=18 THEN "Afternoon"
@@ -194,9 +191,7 @@ FROM
   
   FROM 
   ( ### TAKE 1
-    ## Clean data using DISTINCT, DATETIME 
 SELECT
-  # chose variables that are rrelevant to my analysis
   DISTINCT (ride_id) # Each ride has a unique ride_id, using DISTINCT to remove duplicate ride
   started_at,
   ended_at,
@@ -218,10 +213,17 @@ The cleaned data found at [here](console.cloud.google.com/bigquery?ws=!1m5!1m4!4
 
 ## Analyzing
 
-### Descriptive Statistics
-| Variable | N | Mean | Max | Min | SD |
-| ----- | ----- | ---- | ----- |----- |----- |
-| `duration_sec` | 5.829.084 | 977.3973651777 | 86395 | 0 | 19197.36909423 |
+### Rides proportion: Member vs. Casual
+
+![mc_pie1 (2)](https://github.com/amberarchive/C-BikeShare/assets/132808754/2fe43d63-7c25-4293-ac10-29d786175003)
+
+3/5 of rides (about 59,57%) are taken by the member subscribers with the remaining 40,43% being casual riders. It doesn't mean that the market of casual riders to convert to member is not potential. 
+
+A larger percentage of trips by member subscribers may be described as they are pay for their monthly fees, so they make efficient use of their subscriptions as much as possible. They may use our service as a main transportation - daily transportation. In contrast, casual riders sometimes use our service as a one-time solution: they miss their train, their car is broken or maintenance, or maybe the weather is good that day and they want a bike ride instead,... They priority some other transportation in their daily.
+
+### Duration Trip
+
+#### Descriptive Statistics
 
 ```sql
 SELECT 
@@ -231,30 +233,22 @@ SELECT
   STDDEV(DISTINCT duration_sec) as sd
 FROM `amberlearchive.CBikeShare.tripsdata_cleaned`
 ```
-## Insights
 
-#### Rides proportion: Member vs. Casual
+| Variable | N | Mean | Max | Min | SD |
+| ----- | ----- | ---- | ----- |----- |----- |
+| `duration_sec` | 5.829.084 | 977.3973651777 | 86395 | 0 | 19197.36909423 |
 
-![mc_pie1 (2)](https://github.com/amberarchive/C-BikeShare/assets/132808754/2fe43d63-7c25-4293-ac10-29d786175003)
-
-3/5 of rides (about 59,57%) are taken by the member subscribers with the remaining 40,43% being casual riders. It doesn't mean that the market of casual riders to convert to member is not potential. 
-
-A larger percentage of trips by member subscribers may be described as they are pay for their monthly fees, so they make efficient use of their subscriptions as much as possible. They may use our service as a main transportation - daily transportation. In contrast, casual riders sometimes use our service as a one-time solution: they miss their train, their car is broken or maintenance, or maybe the weather is good that day and they want a bike ride instead,... They priority some other transportation in their daily.
-
-#### Duration Trip
-
-![Sheet 1](https://github.com/amberarchive/C-BikeShare/assets/132808754/09af04b2-deb7-4130-932d-b6d4d74586fb)
+![Duration Trip Distribution](https://github.com/amberarchive/C-BikeShare/assets/132808754/f5652fed-a236-481a-ab82-8980c1997c44)
 
 The bin size is 60 which is equal to 1 minute.
 
-The variability of duration time is high, with the shortest trip being 0 second and the highest being 86395 seconds (equal to ~1440 hours or ~60 days). This makes the distribution highly right-skewed with a really long tail.
+The variability of duration trip shows that the values are spread out over a wider range. The standard deviation (SD) above also indicate the same thing. With the shortest trip being 0 second and the highest being 86395 seconds (equal to ~1440 hours or ~60 days). This makes the distribution highly right-skewed with a really long tail. The histogram above was limited the x-axis max to 150 (minute) to make it easier to observe
 
-There are trips that are too short or too long, it can explain that this is the user's error, they may depart or park the bike while the dock has not recorded the time used. 
-
-The Descriptive Statistics above already show
+The right-skewed is reasonable, our product is for urban moving only, so the duration trip should variaty between few minute to a few hours. There are trips that are too short or too long, it can explain that this is the user's error, they may depart or park the bike while the dock has not recorded the time used. 
 
 
-#### Day of the week
+
+### Day of the week
 ![day of week](https://github.com/amberarchive/C-BikeShare/assets/132808754/35f399dc-8fe0-45d2-b4b9-95b80ee5223e)
 
 Saturday is the busiest day. As shown, the pattern of each user type is quite different. But let's separate it into 2 single graphs
@@ -265,7 +259,7 @@ Member subscribers tend to be more active on weekdays, the number of usage incre
 
 Absolutely opposite, casual riders have a habit of using our service a lot on weekends and gradually decrease and the lowest is on weekdays: Monday, Tuesday, Wednesday and Thursday
 
-#### Time of the day
+### Time of the day
 ![222222](https://github.com/amberarchive/C-BikeShare/assets/132808754/360c8a96-6ba9-4ddc-a55b-964c8a81a419)
 The x-axis has a max limit of 100% showing the percentage of rides for each time of day: about 44% rides in the morning, 45% rides in the afternoon, and about 11% rides at night.
 It is easily explained that Morning and Afternoon are the time that people go to work and go home. After working hours, the demand of using the bike is not high.
