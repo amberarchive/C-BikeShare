@@ -252,8 +252,6 @@ True to the original hypothesis about the needs of 2 customer objects,
 - In contrast, the histograms of customers using single rides were less right-skewed indicating that their trip duration tends to be longer. Furthermore, the slope of the histogram of casual riders is more gentle than the member's one.
 - Initially, the member's histogram is much higher than the casual one. However, around the 24th bin (24th minute), the casual rider's histogram line crossed above the member's line.
 
-<img width="358" alt="Cy Pricing" src="https://github.com/amberarchive/C-BikeShare/assets/132808754/33e9b180-edab-4da7-b747-c1f691c727e5">
-
 ### Day of the week
 ![day of week](https://github.com/amberarchive/C-BikeShare/assets/132808754/35f399dc-8fe0-45d2-b4b9-95b80ee5223e)
 
