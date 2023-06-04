@@ -130,8 +130,6 @@ FROM   `amberlearchive.CBikeShare.tripsdata`
 
 Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,084 rides in a total of 5,829,084 rides on the original dataset, no duplicate.
 
-#### Data Validation
-
 ## Cleaning
 Take 1: 
 1. I only chose variables that are irrelevant to my analysis and drop the rest.
@@ -224,29 +222,32 @@ A larger percentage of trips by member subscribers may be described as they are 
 ### Duration Trip
 
 #### Descriptive Statistics
+|index|duration\_sec|
+|---|---|
+|count|5829084\.0|
+|mean|977\.3973651777878|
+|std|1919\.4462659171945|
+|25%|344\.0|
+|50%|609\.0|
+|75%|1094\.0|
+|min|0.0|
+|max|86395\.0|
 
-```sql
-SELECT 
-  MAX(duration_sec) as maximum,
-  MIN(duration_sec) as minimum,
-  AVG(duration_sec) as mean,
-  STDDEV(DISTINCT duration_sec) as sd
-FROM `amberlearchive.CBikeShare.tripsdata_cleaned`
-```
+The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days). The standard deviation is 1919 which means the duration values are spread out over a very wide range. The average duration is 977 seconds (~16 minutes), Compared to the min and max, we can easily imagine the distribution of the duration trip will be highly skewed on the right.
 
-| Variable | N | Mean | Max | Min | SD |
-| ----- | ----- | ---- | ----- |----- |----- |
-| `duration_sec` | 5.829.084 | 977.3973651777 | 86395 | 0 | 19197.36909423 |
+Let's break it down into 2 separate user types according to the histogram below
 
 ![Duration Trip Distribution](https://github.com/amberarchive/C-BikeShare/assets/132808754/f5652fed-a236-481a-ab82-8980c1997c44)
 
 The bin size is 60 which is equal to 1 minute.
 
-The variability of duration trip shows that the values are spread out over a wider range. The standard deviation (SD) above also indicate the same thing. With the shortest trip being 0 second and the highest being 86395 seconds (equal to ~1440 hours or ~60 days). This makes the distribution highly right-skewed with a really long tail. The histogram above was limited the x-axis max to 150 (minute) to make it easier to observe
+The distribution is highly right-skewed with a really long tail. The histogram above limited the x-axis max to 150 (minute) to make it easier to observe.
 
 The right-skewed is reasonable, our product is for urban moving only, so the duration trip should variaty between few minute to a few hours. There are trips that are too short or too long, it can explain that this is the user's error, they may depart or park the bike while the dock has not recorded the time used. 
 
 
+
+<img width="358" alt="Cy Pricing" src="https://github.com/amberarchive/C-BikeShare/assets/132808754/33e9b180-edab-4da7-b747-c1f691c727e5">
 
 ### Day of the week
 ![day of week](https://github.com/amberarchive/C-BikeShare/assets/132808754/35f399dc-8fe0-45d2-b4b9-95b80ee5223e)
