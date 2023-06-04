@@ -233,7 +233,7 @@ A larger percentage of trips by member subscribers may be described as they are 
 |min|0.0|
 |max|86395\.0|
 
-The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days). The standard deviation is 1919 which means the duration values are spread out over a very wide range. The average duration is 977 seconds (~16 minutes), Compared to the min and max, we can easily imagine the distribution of the duration trip will be highly skewed on the right.
+The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days). The standard deviation is 1919 which means the duration values are spread out over a very wide range. The average duration is 977 seconds (~16 minutes), Compared to min, max and the mode (which is 50% = 609), we can easily imagine the distribution of the duration trip will be highly skewed on the right with a really long tail.
 
 Let's break it down into 2 separate user types according to the histogram below
 
