@@ -245,7 +245,12 @@ The distribution is highly right-skewed with a really long tail. The histogram a
 
 The right-skewed is reasonable, our product is for urban moving only, so the duration trip should variaty between few minute to a few hours. There are trips that are too short or too long, it can explain that this is the user's error, they may depart or park the bike while the dock has not recorded the time used. 
 
+![Line Distribution](https://github.com/amberarchive/C-BikeShare/assets/132808754/4c26527a-812d-43b2-8fec-d792fa203fb5)
 
+True to the original hypothesis about the needs of 2 customer objects,
+- The histogram of member riders is more right-skewed, they usually have a shorter travel time but higher volume due to the advantage of membership.
+- In contrast, the histograms of customers using single rides were less right-skewed indicating that their trip duration tends to be longer. Furthermore, the slope of the histogram of casual riders is more gentle than the member's one.
+- Initially, the member's histogram is much higher than the casual one. However, around the 24th bin (24th minute), the casual rider's histogram line crossed above the member's line.
 
 <img width="358" alt="Cy Pricing" src="https://github.com/amberarchive/C-BikeShare/assets/132808754/33e9b180-edab-4da7-b747-c1f691c727e5">
 
