@@ -15,9 +15,7 @@ Link to data on [BigQuery](console.cloud.google.com/bigquery?ws=!1m4!1m3!3m2!1sa
 
 Cyclistic is a fictional company. For the purposes of this case study, the datasets are appropriate and enable me to answer the business questions. 
 The data has been made available by Motivate International Inc
-
 [Data source](https://divvy-tripdata.s3.amazonaws.com/index.html)
-
 [Lisence](https://ride.divvybikes.com/data-license-agreement)
 
 ### Business Task: 
@@ -101,7 +99,7 @@ FROM  `amberlearchive.CBikeShare.tripsdata`
 WHERE
   ride_id IS NULL
 ```
-Finding: Lucky that the defined variables that relevant to my analysis are all integrity, there is no missing value found in columns `started_at`, `ended_at` and `member_casual`
+Finding: The defined variables that relevant to my analysis are all integrity, there is no missing value found in columns `started_at`, `ended_at` and `member_casual`
 
 | Field name    | Number of null | Percentage
 | ------------- | ----------: |-------------:|
@@ -122,18 +120,17 @@ Finding: Lucky that the defined variables that relevant to my analysis are all i
 #### Duplicate: 
 
 ```sql
-# using DISTINCT to remove duplicate ride then using COUNT
 SELECT
   COUNT(DISTINCT (ride_id))
 FROM   `amberlearchive.CBikeShare.tripsdata`
 ```
 
-Each ride has a unique ride_id, by using DISTINCT, I find out there are 5,829,084 rides in a total of 5,829,084 rides on the original dataset, no duplicate.
+There are 5,829,084 rides in a total of 5,829,084 rides on the original dataset, no duplicate.
 
 ## Cleaning
 Take 1: 
-1. I only chose variables that are irrelevant to my analysis and drop the rest.
-2. Remove duplicate: using DISTINCT to remove duplicate in column `ride_id`
+1. Only chose variables that are irrelevant to my analysis and drop the rest.
+2. Remove duplicate: using DISTINCT to column `ride_id`
 3. Converting data time zone: Cyclistic is Chicago based, but the columns `started_at` and `ended_at` are recorded by UTC +0 time zone. So I convert to the Chicago time zone, which is UTC -5. The 2 new columns `adjusted_started_at` and `adjusted_ended_at` are the new time. 
 
 Take 2:
@@ -207,7 +204,7 @@ ORDER BY
     adjusted_started_at
   )
 ```
-The cleaned data found at [here](console.cloud.google.com/bigquery?ws=!1m5!1m4!4m3!1samberlearchive!2sCBikeShare!3stripsdata_cleaned).
+The cleaned data is found [here](console.cloud.google.com/bigquery?ws=!1m5!1m4!4m3!1samberlearchive!2sCBikeShare!3stripsdata_cleaned).
 
 ## Analyzing
 
@@ -233,7 +230,7 @@ A larger percentage of trips by member subscribers may be described as they are 
 |min|0.0|
 |max|86395\.0|
 
-The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days). The standard deviation is 1919 which means the duration values are spread out over a very wide range. The average duration is 977 seconds (~16 minutes), Compared to min, max and the mode (which is 50% = 609), we can easily imagine the distribution of the duration trip will be highly skewed on the right with a really long tail.
+The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days), which mean the duration values are spread out over a very wide range. The standard deviation which is 1919 tells the same thing. The average duration is 977 seconds (~16 minutes), Compared to min, max and the mode (which is 50% = 609), we can easily imagine the distribution of the duration trip will be highly skewed on the right with a really long tail.
 
 Let's break it down into 2 separate user types according to the histogram below
 
@@ -247,10 +244,14 @@ The right-skewed is reasonable, our product is for urban moving only, so the dur
 
 ![Line Distribution](https://github.com/amberarchive/C-BikeShare/assets/132808754/4c26527a-812d-43b2-8fec-d792fa203fb5)
 
-True to the original hypothesis about the needs of 2 customer objects,
-- The histogram of member riders is more right-skewed, they usually have a shorter travel time but higher volume due to the advantage of membership.
-- In contrast, the histograms of customers using single rides were less right-skewed indicating that their trip duration tends to be longer. Furthermore, the slope of the histogram of casual riders is more gentle than the member's one.
-- Initially, the member's histogram is much higher than the casual one. However, around the 24th bin (24th minute), the casual rider's histogram line crossed above the member's line.
+True to the original hypothesis about the needs of 2 customer objects:
+
+| |Pink - Member| Blue - Casual| Insights|
+|---|---|---|---|
+|Slope|Steep slope| Gentle slope | Member riders have a higher volume of trips which may explain due to the advantage of membership |
+|Top| 4 | 6-7 | The most frequent duration trip of Casual riders is 50-75% higher than Members.|
+|Skew deviation| more right-skewed | less right-skewed | Member riders usually have a shorter trip duration. While casual riders' trip duration, in general, tends to be longer. Moreover, after the 24th milestone (24th minute), the casual rider's histogram line crossed above the member's line, which implicates the same thing.|
+
 
 ### Day of the week
 ![day of week](https://github.com/amberarchive/C-BikeShare/assets/132808754/35f399dc-8fe0-45d2-b4b9-95b80ee5223e)
