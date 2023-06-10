@@ -149,6 +149,7 @@ Take 3:
 ### TAKE 3
 SELECT
   member_casual,
+  rideable_type,
   duration_sec,
   start_hour,
 
@@ -171,9 +172,11 @@ SELECT
 FROM
   ( ### TAKE 2
   SELECT  
+    rideable_type,
     adjusted_started_at,
     adjusted_ended_at,
     member_casual,
+  
 
     #calculate duration time in second
     abs ( extract( second from (adjusted_ended_at - adjusted_started_at) ) 
@@ -189,7 +192,8 @@ FROM
   FROM 
   ( ### TAKE 1
 SELECT
-  DISTINCT (ride_id) # Each ride has a unique ride_id, using DISTINCT to remove duplicate ride
+  DISTINCT (ride_id), # Each ride has a unique ride_id, using DISTINCT to remove duplicate ride
+  rideable_type,
   started_at,
   ended_at,
 
@@ -278,9 +282,9 @@ Absolutely opposite, casual riders have a habit of using our service a lot on we
 ### Time of the day
 ![222222](https://github.com/amberarchive/C-BikeShare/assets/132808754/360c8a96-6ba9-4ddc-a55b-964c8a81a419)
 The x-axis has a max limit of 100% showing the percentage of rides for each time of day: about 44% rides in the morning, 45% rides in the afternoon, and about 11% rides at night.
-It is easily explained that Morning and Afternoon are the time that people go to work and go home. After working hours, the demand for using the bike is dramatically dropdown.
+It is easily explained that Morning and Afternoon are the time that people go to work and go home. After working hours, the demand for using the bike is dramatically drop down.
 
-The y-axis shows the percentage of rides of member and casual riders.
+The y-axis shows the percentage of rides of members and casual riders.
 
 The percentage inside the body of the graph (pink and blue) is the percentage of rides of each rider type at each time of the day.
 
@@ -288,4 +292,10 @@ The percentage inside the body of the graph (pink and blue) is the percentage of
 
 - The pink zone: The peak time of member riders is morning with 26.59% and just slightly decreased in the afternoon, then dramatically drop-down at night  just like casual riders' pattern
 
-It is do different between member vs. casual riders on the time of day using the services but the difference is not significant.
+It is different between member vs. casual riders on the time of day using the services but the difference is not significant.
+
+### Bike Type
+
+<img width="592" alt="BikeTypeByUserType" src="https://github.com/amberarchive/C-BikeShare/assets/132808754/baee8357-d3a4-4fbc-9910-92bbc21191cb">
+
+
