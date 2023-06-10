@@ -15,7 +15,9 @@ Link to data on [BigQuery](console.cloud.google.com/bigquery?ws=!1m4!1m3!3m2!1sa
 
 Cyclistic is a fictional company. For the purposes of this case study, the datasets are appropriate and enable me to answer the business questions. 
 The data has been made available by Motivate International Inc
+
 [Data source](https://divvy-tripdata.s3.amazonaws.com/index.html)
+
 [Lisence](https://ride.divvybikes.com/data-license-agreement)
 
 ### Business Task: 
@@ -219,18 +221,26 @@ A larger percentage of trips by member subscribers may be described as they are 
 ### Duration Trip
 
 #### Descriptive Statistics
-|index|duration\_sec|
-|---|---|
-|count|5829084\.0|
-|mean|977\.3973651777878|
-|std|1919\.4462659171945|
-|25%|344\.0|
-|50%|609\.0|
-|75%|1094\.0|
-|min|0.0|
-|max|86395\.0|
+|index|duration\_sec|member duration\_sec|casual duration\_sec
+|---|---|---|---|
+|count|5829084\.0|3463964\.0|2365120\.0|
+|mean|977\.3973651777878|736\.7521183822927|1329\.8473345961304|
+|std|1919\.4462659171945|1111\.241884374586|2657\.5671132917896|
+|min|0.0|0\.0|0\.0|
+|25%|344\.0|303\.0|434\.0|
+|50%|609\.0|524\.0|770\.0|
+|75%|1094\.0|907\.0|1432\.0|
+|max|86395\.0|86180\.0|86395\.0|
 
-The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days), which mean the duration values are spread out over a very wide range. The standard deviation which is 1919 tells the same thing. The average duration is 977 seconds (~16 minutes), Compared to min, max and the mode (which is 50% = 609), we can easily imagine the distribution of the duration trip will be highly skewed on the right with a really long tail.
+- The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days), which mean the duration values are spread out over a very wide range. The standard deviation which is 1919 tells the same thing. The average duration is 977 seconds (~16 minutes) Compared with the min and max, we can easily imagine the distribution of the duration trip will be highly skewed on the right with a really long tail.
+
+- Member: The average trip duration of the Member is about 737 seconds (~12 minutes) 
+
+| |Pink - Member| Blue - Casual| Insights|
+|---|---|---|---|
+|average trip duration|~12 mins| ~22 mins | Member riders have a higher volume of trips which may explain due to the advantage of membership |
+|Dispersion| 4 | 6-7 | The most frequent duration trip of Casual riders is 50-75% higher than Members.|
+|Skew deviation| more right-skewed | less right-skewed | Member riders usually have a shorter trip duration. While casual riders' trip duration, in general, tends to be longer. Moreover, after the 24th milestone (24th minute), the casual rider's histogram line crossed above the member's line, which implicates the same thing.|
 
 Let's break it down into 2 separate user types according to the histogram below
 
