@@ -232,23 +232,24 @@ A larger percentage of trips by member subscribers may be described as they are 
 |75%|1094\.0|907\.0|1432\.0|
 |max|86395\.0|86180\.0|86395\.0|
 
-- The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days), which mean the duration values are spread out over a very wide range. The standard deviation which is 1919 tells the same thing. The average duration is 977 seconds (~16 minutes) Compared with the min and max, we can easily imagine the distribution of the duration trip will be highly skewed on the right with a really long tail.
-
-- Member: The average trip duration of the Member is about 737 seconds (~12 minutes) 
-
-| |Pink - Member| Blue - Casual| Insights|
+##### Key Takeaways:
+| |General| Member| Casual|
 |---|---|---|---|
-|average trip duration|~12 mins| ~22 mins | Member riders have a higher volume of trips which may explain due to the advantage of membership |
-|Dispersion| 4 | 6-7 | The most frequent duration trip of Casual riders is 50-75% higher than Members.|
-|Skew deviation| more right-skewed | less right-skewed | Member riders usually have a shorter trip duration. While casual riders' trip duration, in general, tends to be longer. Moreover, after the 24th milestone (24th minute), the casual rider's histogram line crossed above the member's line, which implicates the same thing.|
+|Number of trips| 100% | 59.43% | 40.57%|
+|Average trip duration|~16 minutes|~12 mins| ~22 mins |
+|Dispersion|   |-42.11% lower than general | +38.51% higher than general  |
+|The spread (max-min)|86395\.0|86180\.0|86395\.0|
 
-Let's break it down into 2 separate user types according to the histogram below
+- The shortest trip is 0 second and the highest is 86395 seconds (equal to ~1440 hours or ~60 days), which mean the duration values are spread out over a very wide range. The spread of 2 user types compared with the general is quite the same.
+- The standard deviation which is 1919 tells the same thing. Standard deviation implicated the dispersion of the values. The dispersion of members' duration trips tends to be more way stable than the general. In contrast, the casual riders' trips duration is over variable than the general and extremely higher than the members'
+- The average duration is 977 seconds (~16 minutes) Compared with the min and max, we can easily imagine the distribution of the duration trip will be highly skewed on the right with a really long tail.
+- The average trip duration of members is 25% lower than the general, while casual riders' duration is 37.5% higher.
+
+Let's dig deep into the difference by taking a look at the histogram below: 
 
 ![Duration Trip Distribution](https://github.com/amberarchive/C-BikeShare/assets/132808754/f5652fed-a236-481a-ab82-8980c1997c44)
 
-The bin size is 60 which is equal to 1 minute.
-
-The distribution is highly right-skewed with a really long tail. The histogram above limited the x-axis max to 150 (minute) to make it easier to observe.
+The bin size is 60 which is equal to 1 minute. The distribution is highly right-skewed with a really long tail. The histogram above limited the x-axis max to 150 (minute) to make it easier to observe.
 
 The right-skewed is reasonable, our product is for urban moving only, so the duration trip should variaty between few minute to a few hours. There are trips that are too short or too long, it can explain that this is the user's error, they may depart or park the bike while the dock has not recorded the time used. 
 
@@ -259,9 +260,8 @@ True to the original hypothesis about the needs of 2 customer objects:
 | |Pink - Member| Blue - Casual| Insights|
 |---|---|---|---|
 |Slope|Steep slope| Gentle slope | Member riders have a higher volume of trips which may explain due to the advantage of membership |
-|Top| 4 | 6-7 | The most frequent duration trip of Casual riders is 50-75% higher than Members.|
+|Top (mode)| 4 | 6-7 | The most frequent duration trip of Casual riders is 50-75% higher than Members.|
 |Skew deviation| more right-skewed | less right-skewed | Member riders usually have a shorter trip duration. While casual riders' trip duration, in general, tends to be longer. Moreover, after the 24th milestone (24th minute), the casual rider's histogram line crossed above the member's line, which implicates the same thing.|
-
 
 ### Day of the week
 ![day of week](https://github.com/amberarchive/C-BikeShare/assets/132808754/35f399dc-8fe0-45d2-b4b9-95b80ee5223e)
@@ -270,31 +270,22 @@ Saturday is the busiest day. As shown, the pattern of each user type is quite di
 
 ![day of week by user type](https://github.com/amberarchive/C-BikeShare/assets/132808754/94c76f27-d129-4791-9341-c88cf15ae5a9)
 
-Member subscribers tend to be more active on weekdays, the number of usage increases gradually from the beginning of the week and peaks on Tuesdays, Wednesdays and Thursdays, then continues to decrease on the last days. week.
+##### Key Takeaways:
+Member riders tend to be more active on weekdays, the number of usage increases gradually from the beginning of the week and peaks on Tuesdays, Wednesdays and Thursdays, then continues to decrease on the weekends.
 
-Absolutely opposite, casual riders have a habit of using our service a lot on weekends and gradually decrease and the lowest is on weekdays: Monday, Tuesday, Wednesday and Thursday
+Absolutely opposite, casual riders have a habit of using our service a lot on weekends, gradually decrease and the lowest is on weekdays: Monday, Tuesday, Wednesday and Thursday
 
 ### Time of the day
 ![222222](https://github.com/amberarchive/C-BikeShare/assets/132808754/360c8a96-6ba9-4ddc-a55b-964c8a81a419)
 The x-axis has a max limit of 100% showing the percentage of rides for each time of day: about 44% rides in the morning, 45% rides in the afternoon, and about 11% rides at night.
-It is easily explained that Morning and Afternoon are the time that people go to work and go home. After working hours, the demand of using the bike is not high.
+It is easily explained that Morning and Afternoon are the time that people go to work and go home. After working hours, the demand for using the bike is dramatically dropdown.
 
 The y-axis shows the percentage of rides of member and casual riders.
 
 The percentage inside the body of the graph (pink and blue) is the percentage of rides of each rider type at each time of the day.
 
-- The blue squares (from right to left): 
-   - 17.75% rides were made by casual riders in the morning;
-   - 19.18% rides were made by casual riders in the afternoon;
-   - 3.30% is were made by casual riders in the afternoon;
+- The blue zone: Casual riders take 17.75% of rides in the morning compared to the total, it is just a little bit lower than in The afternoon - the peak time, and then it dramatically drop-down at night  
 
-Casual riders' ride in the morning is just a little bit lower (about 2%) than in the afternoon - the peak time, and then it dramatically drop-down at night  
+- The pink zone: The peak time of member riders is morning with 26.59% and just slightly decreased in the afternoon, then dramatically drop-down at night  just like casual riders' pattern
 
-- The pink squares (from right to left): 
-   - 26.59% rides were made by casual riders in the morning;
-   - 26.16%  rides were made by casual riders in the afternoon; 
-   - 6.83%  rides were made by casual riders in the afternoon;  
-
-Member user's peak time is morning, it just falls down insignificant in the afternoon and then dramatically drop-down at night.
-
-It is not too different between member vs. casual riders on the time of day using the services. 
+It is do different between member vs. casual riders on the time of day using the services but the difference is not significant.
