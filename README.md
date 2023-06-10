@@ -294,8 +294,15 @@ The percentage inside the body of the graph (pink and blue) is the percentage of
 
 It is different between member vs. casual riders on the time of day using the services but the difference is not significant.
 
-### Bike Type
+## Recommendations: 
+By understanding the difference in the using habit between member vs casual, below are my recommendations for transforming casual riders into member subscribers:
 
-<img width="592" alt="BikeTypeByUserType" src="https://github.com/amberarchive/C-BikeShare/assets/132808754/baee8357-d3a4-4fbc-9910-92bbc21191cb">
+In fact, their habit of using our product is totally different from the current member subscribers. It is tough to change their habits immediately, it takes time and effort. I believe that **creat a customized subscription** for casual riders that fit the demand of casual riders is the first step. 
 
+For example:
+- A subscription package that has many incentives if users take longer rides: the price per minute decreases: in the first 10 minutes it is $0.25 per minute, but for the next 10 minutes it is only $0, 20 per minute.
+- The price is cheaper for weekends ride
 
+But of course, at a higher fee than the current member package because this is just a **bait strategy**. The purpose of this is to give them the privilege of regular membership for a better price than buying single rides. However, this is also educating and transforming their habits, making them ride bike more often and gradually see our bike as a familiar means of transportation, and the biggest main purpose is to make them change their daily transportation to our bike.
+
+How much is the subscription package, what milestone of time should be depend much on futher analysis and the decision should be made after a lot of market research from the Marketing team.
